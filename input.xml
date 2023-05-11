@@ -1,0 +1,38 @@
+<simulation verbosity='high'>
+  <output prefix='REprueba'>
+    <properties stride='1' filename='out'>  [ time{femtosecond}, conserved, temperature{kelvin}, kinetic_cv, potential, pressure_cv{bar} ] </properties>
+    <trajectory stride='1' filename='pos' cell_units='angstrom'> positions{angstrom} </trajectory>
+    <checkpoint stride='20'/>
+  </output>
+  <total_steps>1000</total_steps>
+  <prng>
+    <seed>3141</seed>
+  </prng>
+  <ffsocket name='mypot' mode='inet' pbc='False'>
+    <address>localhost</address>
+    <port>3141</port>
+    <timeout>100</timeout>
+    <latency> 0.01</latency>
+  </ffsocket>
+  <system>
+    <forces>
+      <force forcefield='mypot'/>
+    </forces>
+    <initialize nbeads='1'>
+      <file mode='xyz'> init.xyz </file>
+      <velocities mode='thermal' units='kelvin'> 5 </velocities>
+    </initialize>
+    <ensemble>
+      <temperature units='kelvin'>5</temperature>
+    </ensemble>
+    <motion mode='dynamics'>
+      <dynamics mode='nvt'>
+        <thermostat mode='pile_l'>
+          <tau units='femtosecond'>100</tau>
+        </thermostat>
+        <timestep units='femtosecond'>0.5</timestep>
+      </dynamics>
+      <fixcom>True</fixcom>
+    </motion>
+  </system>
+</simulation>
