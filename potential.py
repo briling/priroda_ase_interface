@@ -2,7 +2,8 @@ import numpy as np
 
 class Potential():
 
-    def energy_and_forces(self, deltaR, k, D, rEq):
+    def energy_and_forces(self, atoms, k, D, rEq):
+        deltaR = atoms.get_distance(1,0)
         v = self.morse(deltaR, k, D, rEq)
         f = self.forces(deltaR, k, D, rEq)
         return v, f
