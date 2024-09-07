@@ -1,4 +1,4 @@
 2
-# CELL(abcABC):   7.00000    7.00000    7.00000    90.00000    90.00000    90.00000  positions{atomic_unit}  cell{atomic_unit}
+# CELL(abcABC):   7.00000    7.00000    7.00000    90.00000    90.00000    90.00000  positions{angstrom}  cell{angstrom}
        H     0.000     0.000     0.000
        H     0.000     0.000     2.500  ]

@@ -1,6 +1,6 @@
 <simulation verbosity='high'>
   <output prefix='prueba'>
-    <properties stride='1' filename='out'>  [ time{femtosecond}, conserved, temperature{kelvin}, kinetic_cv, potential, pressure_cv{bar} ] </properties>
+    <properties stride='1' filename='out'>  [ time{femtosecond}, conserved, temperature{kelvin}, kinetic_cv, potential, pressure_cv{bar}, atom_f(0) ] </properties>
     <trajectory stride='1' filename='pos' cell_units='angstrom'> positions{angstrom} </trajectory>
     <checkpoint stride='20'/>
   </output>

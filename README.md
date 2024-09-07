@@ -18,7 +18,9 @@ python run.py
 ```
 
 You have to be sure the `port` is the same in both files and that the `address` in `input.xml`
-is the same as the `host` in `runExample.py`.
+is the same as the `host` in `run.py`.
+
+The input/output units are Å.
 
 Use `input.xml` to define all the variables needed to run the dynamics using i-pi.
 

@@ -1,7 +1,7 @@
 import tempfile
 import subprocess
 import numpy as np
-from ase import Atoms
+from ase import Atoms, units
 from ase.neighborlist import neighbor_list
 from ase.calculators.calculator import Calculator, all_changes
 
@@ -71,7 +71,6 @@ class PrirodaCalculator(Calculator):
 
 
     def make_input_file(self, atoms):
-        # TODO check the units. in init.xyz they are bohrs
 
         with open(self.inname, 'w') as f:
             print(f'''$system mem={self.parameters.mem} disk={self.parameters.disk} $end
@@ -120,4 +119,4 @@ $end
                 print(gradient, file=f)
                 for line in eng:
                     print(line, file=f)
-        return energy, -gradient
+        return energy*units.Hartree, -gradient*units.Hartree/units.Bohr
