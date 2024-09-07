@@ -25,7 +25,6 @@ conda activate ipi
 ./run.py
 ```
 
-* `init.xyz` defines the initial geometry and the cell size (keep the units Å)
 * `input.xml` defines all the variables needed to run the dynamics
-* `port` should the same in `input.xml` and `run.py`
-* `address` in `input.xml` should be the same as the `host` in `run.py`
+   including the path to the initial geometry (here `init.xyz`)
+* `init.xyz` defines the initial geometry and the cell size (keep the units Å)
