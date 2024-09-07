@@ -1,33 +1,7 @@
+# Priroda ASE interface
 
-========================================
-ASE_interface_force
-========================================
-
-The interface code (`interface.py`) communicates with Priroda
-to use it as an ASE calculator for the force engine i-PI.
-
-## Execution
-
-To execute this, you have to:
-```
-$ i-pi input.xml
-```
-in one terminal, and in another:
-```
-python run.py
-```
-
-You have to be sure the `port` is the same in both files and that the `address` in `input.xml`
-is the same as the `host` in `run.py`.
-
-The input/output units are Å.
-
-Use `input.xml` to define all the variables needed to run the dynamics using i-pi.
-
-Use `init.xyz` to define the initial geometry and to define the cell size in the second line as a comment.
-
-Use `clean_dir` to remove all the output and temporary files
-
+The interface code (`interface.py`) communicates with [Priroda](http://rad.chem.msu.ru/~laikov)
+to use it as an [ASE](https://wiki.fysik.dtu.dk/ase/) calculator for the force engine [i-PI](https://ipi-code.org/i-pi/).
 
 ## Installation
 
@@ -37,3 +11,21 @@ conda activate ipi
 conda install python=3.12
 pip install ipi==3.0 ase==3.23
 ```
+
+## Execution
+
+To execute this, you have to run the engine in one terminal
+```
+conda activate ipi
+i-pi input.xml
+```
+and the driver in another
+```
+conda activate ipi
+./run.py
+```
+
+* `init.xyz` defines the initial geometry and the cell size (keep the units Å)
+* `input.xml` defines all the variables needed to run the dynamics
+* `port` should the same in `input.xml` and `run.py`
+* `address` in `input.xml` should be the same as the `host` in `run.py`
