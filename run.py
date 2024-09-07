@@ -6,7 +6,7 @@ import ase.io
 from interface import PrirodaCalculator
 
 mol = ase.io.read('init.xyz')
-mol.calc = PrirodaCalculator(charge=0, spin=1)
+mol.calc = PrirodaCalculator(charge=1, mult=2)
 
 port = 3141
 host = "localhost"
