@@ -2,7 +2,6 @@ import numpy as np
 from ase import Atoms
 from ase.neighborlist import neighbor_list
 from ase.calculators.calculator import Calculator, all_changes
-from sklearn.neighbors import BallTree
 from potential import Potential
 
 class PrirodaCalculator(Calculator):

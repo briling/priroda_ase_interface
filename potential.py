@@ -1,36 +1,61 @@
+import subprocess
 import numpy as np
+
 
 class Potential():
 
+    def make_input_file(self, atoms, inname, outname, mem=64, disk=-64, charge=0, mult=1):
+        # TODO check the units. in init.xyz they are bohrs
+
+        with open(inname, 'w') as f:
+            print(f'''$system {mem=} {disk=} $end
+$control
+  theory=qm_n3
+  basis=qm.in
+  task=hessian
+$end
+
+$molecule
+{charge=} {mult=}
+cart
+  {'\n  '.join(str(q) + ' ' + ' '.join(str(ri) for ri in r) for q, r in zip(atoms.numbers, atoms.positions))}
+$end
+            ''', file=f)
+
+
     def energy_and_forces(self, atoms, k, D, rEq):
-        deltaR = atoms.get_distance(1,0)
-        v = self.morse(deltaR, k, D, rEq)
-        f = self.forces(deltaR, k, D, rEq)
-        return v, f
 
-    def morse(self, deltaR, k, D, rEq):
-        #Using a morse potential, given one distance and its constants, computes the energy
-        a=np.sqrt(k/(2.0*D))
-        v = 1.0 - np.exp(-a*(deltaR - rEq))
-        v = D * (v**2)
-        v = v - D
-        return v
+        mem=64
+        disk=-64
+        charge=0
+        mult=1
+        inname='123.in'
+        outname='123.out'
 
-    def forces(self, deltaR, k, D, rEq):
-        #compute the forces by aproximating the derivative with the slope of two points.
-        deltaTotal=0.0001
-        v1 = self.morse(deltaR+deltaTotal, k, D, rEq)
-        v2 = self.morse(deltaR-deltaTotal, k, D, rEq)
-        f1d=(v2-v1) / ((deltaR-deltaTotal)-(deltaR+deltaTotal))
-        f = np.array([[0.,0.,f1d],[0.,0.,-f1d]])
-        return f
+        self.make_input_file(atoms, inname, outname, mem=mem, disk=disk, charge=charge, mult=mult)
 
+        # 1st option: sync run
 
+        #subprocess.run(["p", inname, outname])
+        #eng = subprocess.check_output(["grep", 'eng>', outname])
+        output = subprocess.check_output(["p", inname])
+        output = output.decode('ascii').split('\n')
 
-    #def morse(self, deltaR, k, D, rEq):
-    #    a=np.sqrt(k/(2.0*D))
-    #    v = 1.0 - np.exp(-a*(deltaR - rEq))
-    #    v = D * (v**2)
-    #    v = v - D
-    #    forces=1000
-    #    return v, forces
+        eng = [*reversed([*filter(lambda x: x.startswith('eng>'), reversed(output))])]
+
+        energy = float(eng[1][7:])
+        gradient = np.array([np.fromstring(line[7:], sep=' ', dtype=float) for line in eng[3:3+len(atoms)]])
+        forces = -gradient
+        # TODO check units
+        # TODO add hessian
+
+        #with open('ttt', 'w') as f:
+        #    print(energy, file=f)
+        #    print(gradient, file=f)
+        #    for line in eng:
+        #        print(line, file=f)
+
+        # 2nd option: async
+        # TODO
+
+        return energy, forces
