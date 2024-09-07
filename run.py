@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 from ase.calculators.socketio import SocketClient
 from ase import Atoms
 import ase.io

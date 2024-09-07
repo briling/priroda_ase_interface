@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+rm -fv \#*\#?\#
+rm -fv RESTART
+rm -fv prueba.{out,pos_?.xyz,restart}
